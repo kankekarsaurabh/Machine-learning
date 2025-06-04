@@ -127,3 +127,32 @@ Random Forest’s robustness makes it a reliable baseline for future deployment 
 ---
 
 ## Repository Structure
+
+
+├── credit_score_analysis.ipynb # Jupyter Notebook with EDA, preprocessing, modeling
+├── Final_Report.pdf # Detailed written project report
+├── Credit_Score_Presentation.pdf # Slide deck summarizing the project
+├── Appendix.pdf # Supplementary charts, plots, and extras
+└── README.md # This README file
+
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+Make sure Python 3.x and the following libraries are installed:
+
+- pandas  
+- numpy  
+- scikit-learn  
+- matplotlib  
+- seaborn  
+- jupyterlab or jupyter notebook  
+
+You can install them using pip:
+
+```bash
+pip install pandas numpy scikit-learn matplotlib seaborn jupyterlab
+
