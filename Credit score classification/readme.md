@@ -128,7 +128,7 @@ Random Forest’s robustness makes it a reliable baseline for future deployment 
 
 ## Repository Structure
 
-# Jupyter Notebook with EDA, preprocessing, modeling
+** Jupyter Notebook with EDA, preprocessing, modeling**
 ├── credit_score_analysis.ipynb 
 
 ├── Final_Report.pdf # Detailed written project report
