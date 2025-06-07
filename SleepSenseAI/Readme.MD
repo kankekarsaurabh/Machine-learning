@@ -1,128 +1,102 @@
-# 📚 Exploratory Data Analysis of Student Life & Well-being
-
-This project presents a comprehensive **Exploratory Data Analysis (EDA)** on a multi-modal dataset collected from 49 student participants. The primary goal is to process, clean, and consolidate various data streams—including **Ecological Momentary Assessments (EMAs)**, **psychological surveys**, and **passive smartphone sensor data**—into unified daily summaries. These summaries enable the exploration of relationships between students' behaviors, contexts, and self-reported well-being.
 
 ---
 
-## 📦 Dataset Overview
+## 📊 Exploratory Data Analysis (EDA)
 
-The dataset integrates multiple sources of information:
+### 🔍 Objective
+To consolidate, clean, and visualize a diverse dataset collected from 49 student participants—covering surveys, smartphone-based passive sensing, and real-time EMAs (Ecological Momentary Assessments).
 
-### 📝 EMA (Ecological Momentary Assessment)
-High-frequency, real-time survey responses collected via smartphone, covering:
+### 📌 Data Sources
 
-- Stress & Mood  
-- Social Interactions  
-- Academic Activities (Classes, Studying)  
-- Exercise and Daily Routines  
-- Self-reported Behaviors  
+- **EMA (Ecological Momentary Assessments)**  
+  In-the-moment data on:
+  - Stress & mood  
+  - Academic & social activities  
+  - Physical activity & well-being  
 
-💡 **Reference File:** `EMA_definition.json` — describes all EMA questions and response formats.
+- **Surveys**  
+  - PHQ-9 (Depression)  
+  - Big Five Personality  
+  - Flourishing & Loneliness Scales  
+  - PANAS (Positive/Negative Affect)  
 
-### 🧠 Psychological Surveys
-Baseline measures of mental health and personality traits:
+- **Passive Sensing**  
+  - Activity: walking, running, stationary  
+  - Audio: silence, voice, noise  
+  - Screen time, phone lock/unlock, charging  
+  - Communication: calls, SMS  
+  - App usage  
+  - Location: home, academic, dining  
 
-- **PHQ-9**: Depression Assessment  
-- **Big Five Personality Traits**  
-- **Flourishing & Loneliness Scales**  
-- **PANAS**: Positive and Negative Affect Schedule  
+- **Academic Info**  
+  Class schedule, grades, deadlines
 
-### 📱 Passive Sensing Data
-Behavioral data collected via phone sensors:
-
-- **Activity**: Stationary, Walking, Running  
-- **Audio**: Silence, Voice, Noise detection  
-- **Location**: Semantic categories via Wi-Fi/GPS (e.g., home, library, dining)  
-- **Phone Status**: Screen activity, lock/unlock events, charging  
-- **Communication**: Calls and SMS  
-- **App Usage**: Application log data  
-
-### 🎓 Academic Information
-Includes class schedules, deadlines, and academic performance metrics.
-
----
-
-## ⚙️ Project Workflow
-
-Implemented within the notebook: `DataSet_Creation_and_EDA.ipynb`
-
-### 1. Environment Setup
-- Import libraries: `pandas`, `numpy`, `seaborn`, `matplotlib`, `glob`, etc.
-- Define paths and configurations.
-
-### 2. Initial Exploration
-- Traverse the dataset structure.
-- Identify and catalog available data per user.
-
-### 3. Data Loading & Preprocessing
-- Parse `EMA_definition.json` to interpret response codes.
-- Load and clean survey data.
-- Compute key psychological scores (e.g., PHQ-9).
-
-### 4. Feature Engineering & Aggregation
-- **EMA**: Merge and standardize all user EMA responses.
-- **Sensor Data**:
-  - Calculate total durations for movement states.
-  - Audio exposure breakdown.
-  - Phone usage metrics (lock time, dark screen).
-  - Time spent at various locations.
-- **Rest Estimation**: Infer sleep/rest from phone lock/dark periods.
-
-### 5. Master DataFrame Creation
-All features merged into a unified, per-day-per-student format.
-
-### 6. Data Visualization
-- Example: Histogram of baseline PHQ-9 scores to illustrate cohort distribution.
+### ⚙️ Notebook Workflow (`DataSet_Creation_and_EDA.ipynb`)
+- Parses and maps EMA definitions
+- Cleans and aggregates survey & sensor data
+- Engineering of features like:
+  - Total conversation duration
+  - Daily activity breakdown
+  - Sleep proxy via phone usage
+- Creates a unified daily-level DataFrame per student
+- Early visualizations (e.g., PHQ-9 histogram)
 
 ---
 
-## 🗂 Repository Structure
+## 💤 Sleep Quality Prediction: Model Creation & Analysis
 
-📁 dataset/
-    ├── 📁 EMA/
-    │   └── 📁 response/
-    ├── 📁 dinning/
-    ├── 📁 calendar/
-    ├── 📁 sms/
-    ├── 📁 education/
-    ├── 📁 call_log/
-    ├── 📁 app_usage/
-    ├── 📁 sensing/
-    │   ├── 📁 wifi/
-    │   ├── 📁 gps/
-    │   ├── 📁 activity/
-    │   ├── 📁 phonelock/
-    │   ├── 📁 wifi_location/
-    │   ├── 📁 audio/
-    │   ├── 📁 bluetooth/
-    │   ├── 📁 dark/
-    │   ├── 📁 phonecharge/
-    │   └── 📁 conversation/
-    └── 📁 survey/
-        📄 PerceivedStressScale.csv
-        📄 panas.csv
-        📄 BigFive.csv
-        📄 psqi.csv
-        📄 FlourishingScale.csv
-        📄 LonelinessScale.csv
-        📄 vr_12.csv
-        📄 PHQ-9.csv
+### 🎯 Goal
+To predict binary **sleep quality** ("Not Poor Sleep" vs "Poor Sleep") using a RandomForest classifier and compare it with other models like XGBoost and SVM.
 
---- Traversal Complete ---
-Found 1988 files and 46 sub-folders (excluding the base folder itself in the sub-folder count).
+### ⚙️ Notebook Workflow (`modelcreation.ipynb`)
+- Loads cleaned data from `master_daily_data_cleaned_for_sleep_model.csv`
+- Defines binary target: `sleep_quality_binary`
+- Chooses features on:
+  - Screen time  
+  - Sensor-based activity  
+  - PHQ-9 score  
+  - Social interaction  
+  - Location patterns  
 
---- Top-level contents of '/Users/saurabhkankekar/jupyter_env/dataset': ---
-📁 EMA/
-📁 dinning/
-📄 .DS_Store
-📁 calendar/
-📁 sms/
-📁 education/
-📁 call_log/
-📁 app_usage/
-📁 sensing/
-📁 survey/
+#### ✅ Models Trained
+- RandomForest (with class_weight='balanced')
+- Logistic Regression
+- Support Vector Machine (SVM)
+- XGBoost
 
+#### 🧠 Feature Engineering
+- `sedentary_ratio`  
+- `academic_to_social_ratio`  
+- `stress_x_screentime` interaction
 
-##
+#### 📊 Model Interpretation
+- **Permutation Importance**
+- **Partial Dependence & ICE Plots**
 
+### 🏆 Key Insights
+
+- **PHQ-9 Score**: Strongest predictor of sleep quality  
+- **Sedentary Time**: Higher inactivity → poorer sleep  
+- **Social Interaction**: More conversations → better sleep  
+- **Screen Time**: Higher screen time → worse sleep  
+- **Location Balance**: Home vs. academic place imbalance → signal poor sleep
+
+---
+
+## 🚀 Artifacts for Deployment
+
+Stored in `/models/` directory for integration with a Streamlit app:
+
+- `sleep_model.joblib`: Final RandomForest model  
+- `scaler.joblib`: StandardScaler for feature normalization  
+- `label_encoder.joblib`: Encodes target labels  
+- `feature_columns.json`: Model’s expected features
+
+---
+
+## 🧑‍💻 Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/student-wellbeing-sleep-prediction.git
+   cd student-wellbeing-sleep-prediction
