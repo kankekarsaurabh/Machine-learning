@@ -94,9 +94,4 @@ Stored in `/models/` directory for integration with a Streamlit app:
 
 ---
 
-## 🧑‍💻 Getting Started
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/student-wellbeing-sleep-prediction.git
-   cd student-wellbeing-sleep-prediction
