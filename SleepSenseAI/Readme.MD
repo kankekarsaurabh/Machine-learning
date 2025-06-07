@@ -78,4 +78,51 @@ All features merged into a unified, per-day-per-student format.
 
 ## 🗂 Repository Structure
 
-Readme file
+📁 dataset/
+    ├── 📁 EMA/
+    │   └── 📁 response/
+    ├── 📁 dinning/
+    ├── 📁 calendar/
+    ├── 📁 sms/
+    ├── 📁 education/
+    ├── 📁 call_log/
+    ├── 📁 app_usage/
+    ├── 📁 sensing/
+    │   ├── 📁 wifi/
+    │   ├── 📁 gps/
+    │   ├── 📁 activity/
+    │   ├── 📁 phonelock/
+    │   ├── 📁 wifi_location/
+    │   ├── 📁 audio/
+    │   ├── 📁 bluetooth/
+    │   ├── 📁 dark/
+    │   ├── 📁 phonecharge/
+    │   └── 📁 conversation/
+    └── 📁 survey/
+        📄 PerceivedStressScale.csv
+        📄 panas.csv
+        📄 BigFive.csv
+        📄 psqi.csv
+        📄 FlourishingScale.csv
+        📄 LonelinessScale.csv
+        📄 vr_12.csv
+        📄 PHQ-9.csv
+
+--- Traversal Complete ---
+Found 1988 files and 46 sub-folders (excluding the base folder itself in the sub-folder count).
+
+--- Top-level contents of '/Users/saurabhkankekar/jupyter_env/dataset': ---
+📁 EMA/
+📁 dinning/
+📄 .DS_Store
+📁 calendar/
+📁 sms/
+📁 education/
+📁 call_log/
+📁 app_usage/
+📁 sensing/
+📁 survey/
+
+
+##
+
