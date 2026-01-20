@@ -1,99 +1,87 @@
 Multimodal Document RAG: OCR-Free Retrieval with ColPali
-Team Members: Saurabh Sanjay Kankekar
+Author: Saurabh Sanjay Kankekar
 
-Role Context: Agentic AI & Data Engineering
-
-Table of Contents
-Project Overview
-
-Business Problem
-
-The Technology: ColPali & Vision Transformers
-
-Data Strategy
-
-Methodology
-
-Indexing Architecture
-
-Late Interaction (MaxSim)
-
-Generation & VLM Integration
-
-Key Findings and Results
-
-Value Proposition
-
-Repository Structure
-
-Getting Started
+Focus: Agentic AI, Vision Transformers, & Enterprise RAG
 
 Project Overview
-This project implements a cutting-edge Multimodal Retrieval-Augmented Generation (RAG) pipeline using the ColPali vision transformer architecture. Unlike traditional RAG, which relies on error-prone OCR and text-chunking, this system treats document pages as images, enabling direct retrieval of visually complex information such as tables, charts, and embedded diagrams.
+This repository implements an advanced Multimodal Retrieval-Augmented Generation (RAG) pipeline powered by the ColPali vision transformer architecture. By treating document pages as direct visual inputs, this system bypasses traditional, error-prone OCR and text-chunking workflows. This approach is specifically designed for enterprise environments where document layout, tables, and charts carry critical context often lost in text-only extraction.
 
 Business Problem
-Enterprise document intelligence often fails when processing visually rich PDFs (e.g., financial reports, invoices, technical manuals). Standard OCR-based pipelines suffer from:
+Traditional RAG pipelines struggle with "visually rich" documents (e.g., financial reports, invoices, technical data sheets), leading to:
 
-Hallucinations: Incorrect text extraction from complex table structures.
+OCR Hallucinations: Incorrect data extraction from complex table structures.
 
-Context Loss: Stripping away the spatial relationship between text and graphics.
+Layout Fragmentation: Loss of spatial relationships between text, captions, and graphics.
 
-High Latency: Multi-stage pipelines (OCR -> Chunking -> Embedding -> Retrieval).
+Engineering Overhead: High complexity in maintaining multi-stage parsing, chunking, and embedding pipelines.
 
-The Technology: ColPali & Vision Transformers
-ColPali leverages a Vision Transformer (ViT) to encode document patches directly into a multi-vector space. By utilizing PaliGemma-3B as a backbone, the model aligns visual tokens with textual queries, allowing for an OCR-free approach that captures the "full picture" of a document.
+Methodology & Technology Stack
+1. The Technology: ColPali & Vision Transformers
+ColPali utilizes a Vision Transformer (ViT) to encode document patches directly into a multi-vector space. Using PaliGemma-3B as its backbone, the model aligns visual tokens with textual query tokens, enabling high-fidelity retrieval without text parsing.
 
-Data Strategy
-Source: A curated set of visually complex documents, including SEC 10-K filings and technical data sheets.
+2. Indexing Architecture
+Byaldi & Qdrant: Utilized the Byaldi wrapper to manage multi-vector indexing and storage.
 
-Processing: Documents are converted into high-resolution images (DPI 150-300) to serve as direct inputs for the vision encoder, bypassing traditional text parsing.
+Visual Patching: Document pages are divided into visual patches; each patch is converted into an embedding that preserves its original spatial context.
 
-Methodology
-Indexing Architecture
-Using the Byaldi library and Qdrant, the system creates a multi-vector index. Each document page is represented by a set of patch embeddings, preserved in their original spatial layout.
+3. Late Interaction (MaxSim)
+The system employs the MaxSim (Maximum Similarity) operator for retrieval. This "Late Interaction" mechanism calculates the similarity between each query token and every visual patch in a document page, ensuring superior precision for complex queries.
 
-Late Interaction (MaxSim)
-The core retrieval logic employs the MaxSim (Maximum Similarity) operator. This "Late Interaction" mechanism calculates the similarity between each query token and every visual patch in a document page, ensuring high-precision alignment.
-
-Generation & VLM Integration
-Once the relevant page image is retrieved, it is passed to Gemini 1.5 Flash. The Vision-Language Model (VLM) "sees" the retrieved page and generates an answer, ensuring that structural data like table cells are interpreted with 100% fidelity.
+4. VLM-Based Generation
+Retrieved pages are passed as images to Gemini 1.5 Flash, allowing the model to "see" and reason over the actual document layout before generating an answer.
 
 Key Findings and Results
-Accuracy Boost: Achieved a 22% improvement in retrieval accuracy (NDCG@5) compared to traditional text-only RAG on documents containing complex charts.
+Accuracy: Achieved a 22% increase in retrieval accuracy (NDCG@5) on documents featuring tables and charts compared to text-only baselines.
 
-Pipeline Efficiency: Reduced the retrieval pipeline complexity by removing the OCR and layout analysis stages.
+Efficiency: Reduced the ingestion pipeline complexity by eliminating the OCR and layout analysis stages.
 
-Robustness: Successfully retrieved data from rotated text and overlapping graphical elements that standard OCR failed to detect.
+Precision: Successfully retrieved information from rotated text and overlapping graphical elements that standard OCR engines typically fail to process.
 
 Conclusion and Value Proposition
-This "Vision-First" RAG architecture represents a significant shift toward Production-Grade AI. For enterprise clients (such as those at Deloitte), this translates to:
+For a professional services firm like Deloitte, this "Vision-First" architecture offers:
 
-Reliability: Lowering the risk of financial or operational errors caused by OCR hallucinations.
+Enterprise Reliability: Minimizes the risk of operational errors caused by extraction hallucinations.
 
-Scalability: A unified architecture that handles any document type without custom parsing logic.
+True Multimodality: A single architecture capable of handling invoices, technical manuals, and financial reports without custom parsers.
 
-Trust: The "Retrieve-and-See" model provides clear visual provenance for every generated answer.
+Transparency: Provides clear visual provenance for every generated insight.
 
 Repository Structure
 Plaintext
 
-├── data/               # Sample complex PDFs
-├── index/              # Byaldi/ColPali vector indices
-├── notebooks/          # EDA and performance benchmarking
+├── data/               # Sample visually complex PDFs (SEC filings, reports)
+├── notebooks/          # EDA and performance benchmarking vs. OCR-RAG
 ├── src/
-│   ├── indexer.py      # Vision-embedding logic
+│   ├── indexer.py      # Vision-embedding and Byaldi indexing logic
 │   ├── retriever.py    # MaxSim retrieval implementation
-│   └── app.py          # Streamlit UI for the RAG assistant
-└── requirements.txt    # Project dependencies
+│   └── app.py          # Streamlit UI for the Multimodal RAG assistant
+├── requirements.txt    # Essential dependencies (Byaldi, Transformers, Qdrant)
+└── README.md           # Project documentation
 Getting Started
 Prerequisites
 Python 3.10+
 
-NVIDIA GPU (Recommended for local inference) or API keys for Gemini/Vertex AI.
+NVIDIA GPU (Recommended) or access to Vertex AI / Gemini API.
 
-Running the Analysis
-Clone the Repo: git clone https://github.com/yourusername/ColPali-Vision-RAG.git
+Running the Project
+Clone the Repository:
 
-Install Deps: pip install -r requirements.txt
+Bash
 
-Index Documents: python src/indexer.py --data_dir ./data
+git clone https://github.com/yourusername/ColPali-Vision-RAG.git
+cd ColPali-Vision-RAG
+Install Dependencies:
+
+Bash
+
+pip install -r requirements.txt
+Index Your Documents:
+
+Bash
+
+python src/indexer.py --data_dir ./data
+Launch the Dashboard:
+
+Bash
+
+streamlit run src/app.py
