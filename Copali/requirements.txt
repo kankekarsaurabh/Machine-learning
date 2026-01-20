@@ -1,0 +1,8 @@
+torch
+transformers
+byaldi>=0.0.4
+qdrant-client
+pdf2image
+pillow
+streamlit
+python-dotenv
